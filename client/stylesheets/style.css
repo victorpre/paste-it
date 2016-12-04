@@ -66,9 +66,11 @@ body.mode-search .control .btn-new {
 }
 
 .icon-search {
-  /*position: absolute;*/
-  /*top: 18px;*/
-  /*left: 20px;*/
+  position: absolute;
+  z-index: 99;
+  color: white;
+  top: 15px;
+  left: 15px;
   font-size: 28px;
 }
 
@@ -130,4 +132,8 @@ body.mode-search .control .btn-new {
 }
 .form-search :-ms-input-placeholder {
   color: #EEE;
+}
+
+.transparent{
+  color: transparent;
 }

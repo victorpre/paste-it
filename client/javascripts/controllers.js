@@ -4,6 +4,7 @@ angular.module('pasteit.controllers', [])
 
   $('.control').click( function(){
     $('.icon-close').removeClass('disabled');
+    $('.icon-search').addClass('transparent');
     $('body').addClass('mode-search');
       $('.input-search').focus();
     });
@@ -11,6 +12,7 @@ angular.module('pasteit.controllers', [])
     $('.icon-close').click( function(){
       $('.icon-close').addClass('disabled');
       $('body').removeClass('mode-search');
+      $('.icon-search').removeClass('transparent');
     });
 
 
