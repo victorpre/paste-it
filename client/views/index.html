@@ -1,6 +1,6 @@
 <html ng-app="pasteit">
   <head>
-    <title>Todo App - with Node + Express + Angular + PostgreSQL</title>
+    <title>Paste-It</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,14 +18,14 @@
     <base href="/"/>
   </head>
   <body ng-controller="MainCtlr">
-    <div class='header'>
-      <div class='control' tabindex='1'>
+    <div class="header">
+      <div class="control" tabindex="1">
         <a class="btn-new btn-floating btn-large"></a>
-        <i class="material-icons icon-search">search</i>
+        <i class="material-icons icon-search">open_in_new</i>
       </div>
       <a class="btn-new icon-close btn-floating disabled"><i class="material-icons" style="font-size: 70px;">close</i></a>
       <form ng-submit="goToPage()" class='form-search'>
-        <input class='input-search' placeholder='Search' type='text' ng-model="pageName">
+        <input class="input-search" placeholder="Go to . . ." type='text' ng-model="pageName">
       </form>
       <nav>
         <div class="nav-wrapper">
