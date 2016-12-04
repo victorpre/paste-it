@@ -86,11 +86,14 @@ body.mode-search .control .btn-new {
   transform: translate(10px, 0) rotate(90deg);
   transition: all 0.3s ease-in-out;
   box-shadow: none;
-  /*height: 90px;
-  width: 90px;*/
   border-radius: 0px
 }
-
+.btn-floating.disabled{
+  background-color: #ee6e73 !important;
+}
+.btn-floating.disabled:hover{
+  background-color: #ee6e73 !important;
+}
 .icon-close:hover {
   background-color: #ee6e73;
   box-shadow: none !important;
