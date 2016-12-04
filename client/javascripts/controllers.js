@@ -1,6 +1,19 @@
 angular.module('pasteit.controllers', [])
 
 .controller('MainCtlr', ['$scope', '$http','socket', function($scope, $http, socket){
+
+  $('.control').click( function(){
+    $('.icon-close').removeClass('disabled');
+    $('body').addClass('mode-search');
+      $('.input-search').focus();
+    });
+
+    $('.icon-close').click( function(){
+      $('.icon-close').addClass('disabled');
+      $('body').removeClass('mode-search');
+    });
+
+
   $scope.formData = {};
   $scope.noteData = {};
   // Get all notes
