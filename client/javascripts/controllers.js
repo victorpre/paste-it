@@ -1,7 +1,6 @@
 angular.module('pasteit.controllers', [])
 
-.controller('MainCtlr', ['$scope', '$http','socket', function($scope, $http, socket){
-
+.controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
   $('.control').click( function(){
     $('.icon-close').removeClass('disabled');
     $('.icon-search').addClass('transparent');
@@ -15,26 +14,30 @@ angular.module('pasteit.controllers', [])
       $('.icon-search').removeClass('transparent');
     });
 
+    $scope.goToPage = function(){
+      console.log($scope.pageName);
+      var path = "/"+$scope.pageName;
+      $location.path(path);
+      $('.icon-close').click();
+      $scope.pageName = "";
+    }
 
-  $scope.formData = {};
-  $scope.noteData = {};
-  // Get all notes
-  $http.get('/api/v1/paste-it')
-  .success((data) => {
-    $scope.noteData = data;
-    console.log(data);
-  })
-  .error((error) => {
-    console.log('Error: ' + error);
-  });
+    $scope.formData = {};
+    $scope.noteData = {};
+    // Get all notes
+    $http.get('/api/v1/paste-it')
+    .success((data) => {
+      $scope.noteData = data;
+      // console.log(data);
+    })
+    .error((error) => {
+      console.log('Error: ' + error);
+    });
 }])
 
-.controller('OtherCtlr', ['$scope', '$http','$routeParams','socket', function($scope, $http,$routeParams, socket){
-  console.log("pindiporco");
-  $scope.node_title = $routeParams.noteTitle;
-  console.log($scope.node_title);
-  var path = '/api/v1/paste-it/'+$scope.node_title;
-  console.log(path);
+.controller('OtherCtlr', ['$scope', '$http', '$routeParams','socket', function($scope, $http, $routeParams, socket){
+  $scope.note_title = $routeParams.noteTitle;
+  var path = '/api/v1/paste-it/'+$scope.note_title;
   $scope.noteData = {};
   $http.get(path).then(function successCallback(response) {
     $scope.noteData = response.data[0];

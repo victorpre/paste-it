@@ -134,6 +134,9 @@ body.mode-search .control .btn-new {
   color: #EEE;
 }
 
+.input-search{
+  border-bottom-color: white !important;
+}
 .transparent{
   color: transparent;
 }
