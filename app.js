@@ -12,6 +12,13 @@ const app = express();
 var server = require('http').Server(app); //modified
 var io = require('socket.io')(server);
 
+io.on('connection', function(socket) {
+  socket.on('public', function(data) {
+    console.log(data);
+    io.emit(data.title, data.text);
+  });
+});
+
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'html');

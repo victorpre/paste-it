@@ -4,11 +4,15 @@ angular.module('pasteit.services', [])
     //Creating connection with server
     var socket = io.connect('http://localhost:3000');
 
+    return{
+      listen: function(eventName, callback){
+        socket.on(eventName, callback);
+      },
+      send: function(title, text){
+        socket.emit("public",{title: title, text: text});
+      }
+    };
 
-    socket.on('socketToMe', function(data){
-      // use the socket as usual
-      console.log(data);
-    });
   return socket;
 
 });

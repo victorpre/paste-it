@@ -7,12 +7,12 @@ const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  res.io.emit("socketToMe", "users");
   res.sendFile(path.join(
     __dirname, '..', '..', 'client', 'views', 'index.html'));
 });
 
 router.get('/views/:name', function (req, res) {
+  // res.io.emit("socketToMe", "users");
   var name = req.params.name;
   res.render('views/' + name);
 });
@@ -80,10 +80,10 @@ router.get('/api/v1/paste-it', (req, res, next) => {
 
 
 // Update
-router.put('/api/v1/paste-it/:note_id', (req, res, next) => {
+router.put('/api/v1/paste-it/:note_title', (req, res, next) => {
   const results = [];
   // Grab data from the URL parameters
-  const id = req.params.note_id;
+  const title = req.params.note_title;
   // Grab data from http request
   const data = {text: req.body.text, complete: req.body.complete};
   // Get a Postgres client from the connection pool
@@ -95,10 +95,12 @@ router.put('/api/v1/paste-it/:note_id', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
     // SQL Query > Update Data
-    client.query('UPDATE notes SET text=($1) WHERE id=($2)',
+    client.query('UPDATE notes SET text=($1) WHERE title=($2)',
     [data.text, id]);
     // SQL Query > Select Data
     const query = client.query("SELECT * FROM notes ORDER BY id ASC");
+
+    // res.io.emit(, "users");
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -146,7 +148,6 @@ router.delete('/api/v1/paste-it/:note_id', (req, res, next) => {
 router.get('/api/v1/paste-it/:note_title', (req, res, next) => {
   const results = [];
   const title = req.params.note_title;
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
     // Handle connection errors

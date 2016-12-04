@@ -36,17 +36,28 @@ angular.module('pasteit.controllers', [])
 }])
 
 .controller('OtherCtlr', ['$scope', '$http', '$routeParams','socket', function($scope, $http, $routeParams, socket){
-  $scope.note_title = $routeParams.noteTitle;
-  var path = '/api/v1/paste-it/'+$scope.note_title;
+  $scope.noteTitle = $routeParams.noteTitle;
+  var path = '/api/v1/paste-it/'+$scope.noteTitle;
   $scope.noteData = {};
   $http.get(path).then(function successCallback(response) {
     $scope.noteData = response.data[0];
-    $('#textarea1').val($scope.noteData.text);
+    $scope.noteText = $scope.noteData.text;
+    $scope.noteTitle = $scope.noteData.title;
     $('#textarea1').trigger('autoresize');
     $('#textarea1').trigger('focus');
   }, function errorCallback(response) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
+
+  console.log($scope.noteTitle);
+  socket.listen($scope.noteTitle,function(data){
+    $scope.noteText = data;
+    $('#textarea1').trigger('autoresize');
+  });
+
+  $scope.updateText = function(){
+    socket.send($scope.noteTitle, $scope.noteText);
+  }
 
 }]);
