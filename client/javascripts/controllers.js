@@ -1,6 +1,16 @@
 angular.module('pasteit.controllers', [])
 
 .controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
+  var clipboard = new Clipboard('.share-btn');
+  $scope.copy = function(){
+    Materialize.toast('Copied!', 2500)
+  }
+  $scope.download = function(){
+    var fileName = $location.path().substr(1);
+    download($('#textarea1').val(), fileName+".txt", "text/plain");
+  }
+  $scope.shareUrl = "sambei na cara do perigo";
+
   $('.control').click( function(){
     $('.icon-close').removeClass('disabled');
     $('.icon-search').addClass('transparent');

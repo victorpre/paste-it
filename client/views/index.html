@@ -6,38 +6,85 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Rancho" />
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
     <script src="javascripts/app.js"></script>
     <script src="javascripts/controllers.js"></script>
     <script src="javascripts/services.js"></script>
     <script src="javascripts/socket.io.js"></script>
+    <script src="javascripts/download.js"></script>
     <base href="/"/>
   </head>
   <body ng-controller="MainCtlr">
-    <div class="header">
-      <div class="control" tabindex="1">
-        <a class="btn-new btn-floating btn-large"></a>
-        <i class="material-icons icon-search">open_in_new</i>
-      </div>
-      <a class="btn-new icon-close btn-floating disabled"><i class="material-icons" style="font-size: 70px;">close</i></a>
-      <form ng-submit="goToPage()" class='form-search'>
-        <input class="input-search" placeholder="Go to . . ." type='text' ng-model="pageName">
-      </form>
-      <nav>
-        <div class="nav-wrapper">
-         <a href="#" class="brand-logo center">Paste-It here</a>
-         <ul id="nav-mobile" class="right hide-on-med-and-down">
-           <li><a href="sass.html">Sass</a></li>
-           <li><a href="badges.html">Components</a></li>
-           <li><a href="collapsible.html">JavaScript</a></li>
-         </ul>
+
+      <div class="header">
+        <div class="share">
+          <div>
+            <div class="menu-btn fixed-action-btn horizontal">
+              <a class="btn-floating btn-large toggle-menu-btn">
+                <i class="material-icons">menu</i>
+              </a>
+              <ul>
+                <li><a class="btn-floating share-btn" data-clipboard-text="{{shareUrl}}" ng-click="copy()" style="transform: scaleY(0.4) scaleX(0.4) translateY(0px) translateX(40px); opacity: 0;"><i class="material-icons">share</i></a></li>
+                <li><a class="btn-floating" ng-click="download()" style="transform: scaleY(0.4) scaleX(0.4) translateY(0px) translateX(40px); opacity: 0;"><i class="material-icons">file_download</i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="control" tabindex="1">
+          <a class="btn-new btn-floating btn-large"></a>
+          <i class="material-icons icon-search">open_in_new</i>
+        </div>
+        <a class="btn-new icon-close btn-floating disabled"><i class="material-icons" style="font-size: 70px;">close</i></a>
+        <form ng-submit="goToPage()" class='form-search'>
+          <div class="input-field">
+            <input class="input-search" id="input_search" placeholder="Go to ..." type='text' ng-model="pageName">
+          </div>
+        </form>
+        <nav>
+          <div class="nav-wrapper">
+           <a href="#" class="brand-logo center">Paste-It</a>
+           <ul id="nav-mobile" class="right hide-on-med-and-down">
+             <li><a href="/">Home</a></li>
+             <li><a href="#">Components</a></li>
+             <li><a href="#">JavaScript</a></li>
+           </ul>
+         </div>
+       </nav>
+     </div>
+
+   <main>
+     <ng-view></ng-view>
+   </main>
+   <footer class="page-footer">
+     <div class="container">
+       <div class="row">
+         <div class="col l6 s12">
+           <h5 class="white-text">Paste-It</h5>
+           <p class="grey-text text-lighten-4">Here you can write notes and share them.</p>
+         </div>
+         <div class="col l4 offset-l2 s12">
+           <h5 class="white-text">Links</h5>
+           <ul>
+             <li><a id="copiar" class="grey-text text-lighten-3" href="#!">Share link</a></li>
+             <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+             <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+             <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+           </ul>
+         </div>
        </div>
-     </nav>
-   </div>
-   <ng-view></ng-view>
+     </div>
+     <div class="footer-copyright">
+       <div class="container">
+       © 2016 Victor Presumido
+       <!-- <a class="grey-text text-lighten-4 right" href="#!">More Links</a> -->
+       </div>
+     </div>
+   </footer>
   </body>
 </html>

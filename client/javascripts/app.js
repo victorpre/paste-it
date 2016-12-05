@@ -5,7 +5,9 @@ angular.module('pasteit', ['pasteit.controllers','pasteit.services','ngRoute'])
             .when("/:noteTitle",{
                 templateUrl: "views/other.html",
                 controller: "OtherCtlr"
-            }).otherwise("/");
-
-
+            })
+            .when("/",{
+                templateUrl: "views/test.html",
+                controller: "MainCtlr"
+            });
 }]);
