@@ -96,7 +96,7 @@ router.put('/api/v1/paste-it/:note_title', (req, res, next) => {
     }
     // SQL Query > Update Data
     client.query('UPDATE notes SET text=($1) WHERE title=($2)',
-    [data.text, id]);
+    [data.text, title]);
     // SQL Query > Select Data
     const query = client.query("SELECT * FROM notes ORDER BY id ASC");
 
