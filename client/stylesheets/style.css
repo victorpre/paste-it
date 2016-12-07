@@ -21,6 +21,10 @@ footer h5{
   font-family: "Rancho";
 }
 
+.page-footer {
+     margin-top: 0px !important;
+}
+
 body {
   /*padding: 50px;*/
   display: flex;

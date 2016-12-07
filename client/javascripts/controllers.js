@@ -1,10 +1,14 @@
 angular.module('pasteit.controllers', [])
 
 .controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
+  // Parallax
+  $(document).ready(function(){
+      $('.parallax').parallax();
+    });
   // Copy URL
   var clipboard = new Clipboard('.share-btn');
   $scope.copy = function(){
-    Materialize.toast('Copied!', 2500)
+    Materialize.toast('Copied!', 2000)
   }
   // Download note
   $scope.download = function(){
@@ -34,21 +38,9 @@ angular.module('pasteit.controllers', [])
       $('.icon-close').click();
       $scope.pageName = "";
     }
-
-    $scope.formData = {};
-    $scope.noteData = {};
-    // Get all notes
-    $http.get('/api/v1/paste-it')
-    .success((data) => {
-      $scope.noteData = data;
-      // console.log(data);
-    })
-    .error((error) => {
-      console.log('Error: ' + error);
-    });
 }])
 
-.controller('OtherCtlr', ['$scope', '$http', '$routeParams','socket', function($scope, $http, $routeParams, socket){
+.controller('OtherCtlr', ['$scope', '$http', '$routeParams','$timeout','socket', function($scope, $http, $routeParams,$timeout, socket){
   $scope.saving =  false;
   $scope.noteTitle = $routeParams.noteTitle;
   var path = '/api/v1/paste-it/'+$scope.noteTitle;
@@ -57,6 +49,7 @@ angular.module('pasteit.controllers', [])
     $scope.noteData = response.data[0];
     $scope.noteText = $scope.noteData.text;
     $scope.noteTitle = $scope.noteData.title;
+    $('#textarea1').val($scope.noteText);
     $('#textarea1').trigger('autoresize');
     $('#textarea1').trigger('focus');
   }, function errorCallback(response) {
@@ -72,7 +65,6 @@ angular.module('pasteit.controllers', [])
   });
 
   function saveOnDB() {
-      console.info('do stuff');
       $http.put(path, {text: $scope.noteText})
       .success((data) => {
         $scope.saving = false;
@@ -83,6 +75,7 @@ angular.module('pasteit.controllers', [])
         console.log('Error: ' + error);
       });
   }
+
 
   // Sockets
   console.log($scope.noteTitle);
@@ -102,4 +95,15 @@ angular.module('pasteit.controllers', [])
     socket.send($scope.noteTitle, $scope.noteText);
   }
 
+
+}])
+
+.directive('textBox', ['$timeout', function($timeout) {
+   return {
+        link: function($scope, element){
+            $timeout(function() {
+              element.trigger('autoresize');
+            });
+        }
+    };
 }]);

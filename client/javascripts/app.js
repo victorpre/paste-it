@@ -7,7 +7,7 @@ angular.module('pasteit', ['pasteit.controllers','pasteit.services','ngRoute'])
                 controller: "OtherCtlr"
             })
             .when("/",{
-                templateUrl: "views/test.html",
+                templateUrl: "views/home.html",
                 controller: "MainCtlr"
             });
 }]);
