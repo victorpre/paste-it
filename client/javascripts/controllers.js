@@ -100,10 +100,21 @@ angular.module('pasteit.controllers', [])
 
 .directive('textBox', ['$timeout', function($timeout) {
    return {
-        link: function($scope, element){
+        link: function($scope, element, attrs){
             $timeout(function() {
               element.trigger('autoresize');
             });
+
+            $scope.$watch('noteText', function(data) {
+
+                if(typeof data != 'undefined'){
+                  // Resize if is empty
+                  if(data.length==0){
+                    element.trigger('autoresize');
+                  }
+                }
+            });
+
         }
     };
 }]);
