@@ -192,8 +192,11 @@ body.mode-search .control .btn-new {
   color: #EEE;
 }
 
+/*Overwrites from materializecss*/
 .input-search{
   border-bottom-color: white !important;
+  border-bottom: 1px solid white !important;
+  box-shadow: 0 1px 0 0 white !important;
 }
 .transparent{
   color: transparent;
