@@ -68,24 +68,24 @@ angular.module('pasteit.controllers', [])
       $http.put(path, {text: $scope.noteText})
       .success((data) => {
         $scope.saving = false;
-        $scope.noteData = data;
-        console.log(data);
+        // $scope.noteData = data;
       })
       .error((error) => {
         console.log('Error: ' + error);
       });
   }
 
-
+  function stopTimer(){
+    $scope.saving = false;
+  }
   // Sockets
   console.log($scope.noteTitle);
   socket.listen($scope.noteTitle,function(data){
-    function stopTimer(){
-      $scope.saving = false;
-    }
-    var async_timer = setTimeout(stopTimer,3000)
+
+
     $scope.noteText = data;
     $scope.saving = true;
+    var async_timer = $timeout(stopTimer,3500)
     $('#textarea1').trigger('autoresize');
     $('#textarea1').trigger('focus');
   });
