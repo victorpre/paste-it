@@ -1,21 +1,25 @@
 angular.module('pasteit.controllers', [])
 
 .controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
-  // Parallax
-  $(document).ready(function(){
-      $('.parallax').parallax();
-    });
+  $scope.notOnHomeScreen = false;
+
   // Copy URL
   var clipboard = new Clipboard('.share-btn');
   $scope.copy = function(){
     Materialize.toast('Copied!', 2000)
   }
+
+  if($location.path()!="/"){
+    $scope.notOnHomeScreen=true;
+  }
+
   // Download note
   $scope.download = function(){
     var fileName = $location.path().substr(1);
     download($('#textarea1').val(), fileName+".txt", "text/plain");
   }
-  $scope.shareUrl = "sambei na cara do perigo";
+
+  $scope.shareUrl = $location.absUrl();
 
   // UI
   $('.control').click( function(){
@@ -33,7 +37,11 @@ angular.module('pasteit.controllers', [])
 
     $scope.goToPage = function(){
       console.log($scope.pageName);
-      var path = "/"+$scope.pageName;
+      var path = "/";
+      if(typeof $scope.pageName!="undefined"){
+        $scope.notOnHomeScreen = true;
+        path = path+$scope.pageName;
+      }
       $location.path(path);
       $('.icon-close').click();
       $scope.pageName = "";
@@ -79,7 +87,6 @@ angular.module('pasteit.controllers', [])
     $scope.saving = false;
   }
   // Sockets
-  console.log($scope.noteTitle);
   socket.listen($scope.noteTitle,function(data){
 
 
@@ -117,4 +124,13 @@ angular.module('pasteit.controllers', [])
 
         }
     };
+}])
+
+.controller('HomeCtlr', ['$scope', '$http', '$routeParams','$timeout','socket', function($scope, $http, $routeParams,$timeout, socket){
+  // Parallax
+  $(document).ready(function(){
+      $('.parallax').parallax();
+    });
+
+
 }]);

@@ -8,6 +8,6 @@ angular.module('pasteit', ['pasteit.controllers','pasteit.services','ngRoute'])
             })
             .when("/",{
                 templateUrl: "views/home.html",
-                controller: "MainCtlr"
+                controller: "HomeCtlr"
             });
 }]);
