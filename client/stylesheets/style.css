@@ -30,6 +30,9 @@ footer h5{
     max-width: 500px;
 }
 
+.tabs{
+  background-color: #fafafa;
+}
 .or-divider{
     border-top: 1px solid #e0e0e0;
     color: #9e9e9e;

@@ -3,7 +3,6 @@ angular.module('pasteit.controllers', [])
 .controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
   $scope.notOnHomeScreen = false;
 
-
   // Login
   $(document).ready(function(){
     $('.modal').modal({
@@ -50,6 +49,7 @@ angular.module('pasteit.controllers', [])
 
     $scope.loginModal = function(){
       $('#login-modal').modal('open');
+      $('ul.tabs').tabs('select_tab', 'tab-signin');
     };
 
     $scope.goToPage = function(){

@@ -2,14 +2,14 @@
   <head>
     <title>Paste-It</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Rancho" />
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular-route.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
@@ -59,37 +59,80 @@
      <!-- Modal Structure -->
      <div id="login-modal" class="modal">
        <div class="modal-content">
-         <h4>Login</h4>
          <div class="row">
-           <form ng-submit="submitLogin()" class="col s12">
-             <div class="row">
-               <div class="input-field col s12">
-                 <i class="material-icons prefix">email</i>
-                 <input id="email" type="email" class="validate">
-                 <label for="email">Your email address</label>
-               </div>
-             </div>
-             <div class="row">
-               <div class="input-field col s12">
-                 <i class="material-icons prefix">lock</i>
-                 <input id="password" type="password" class="validate">
-                 <label for="password">Your password</label>
-               </div>
-             </div>
-             <div class="row center-align">
-             <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-           </div>
-           </form>
-         </div>
-         <div class="row or-divider">
-                <span>OR</span>
+          <div class="col s12">
+            <ul class="tabs tabs-fixed-width">
+              <li class="tab col s3"><a class="active" href="#tab-signin">Login</a></li>
+              <li class="tab col s3"><a href="#tab-signup">Signup</a></li>
+            </ul>
           </div>
-          <div class="row center">
-          <a href="/auth/facebook?destination_url=/manage" class="connect-btn button-facebook btn">    <svg style="width:24px;height:24px;top: 6px; position: relative; right: 5px;" viewBox="0 0 24 24">
-    <path fill="#ffffff" d="M19,4V7H17A1,1 0 0,0 16,8V10H19V13H16V20H13V13H11V10H13V7.5C13,5.56 14.57,4 16.5,4M20,2H4A2,2 0 0,0 2,4V20A2,2 0 0,0 4,22H20A2,2 0 0,0 22,20V4C22,2.89 21.1,2 20,2Z"></path>
-    </svg>
-    Facebook</a>
-  </div>
+          <div class="center">
+            <h4 class="brand-logo">Paste-It</h4>
+          </div>
+          <div id="tab-signin" class="col s12">
+            <div class="row">
+              <form ng-submit="submitLogin()" class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input id="email" type="email" class="validate">
+                    <label for="email">Your email address</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Your password</label>
+                  </div>
+                </div>
+                <div class="row center-align">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+              </div>
+              </form>
+            </div>
+            <div class="row or-divider">
+                   <span>OR</span>
+             </div>
+             <div class="row center">
+             <a href="/auth/facebook?destination_url=/manage" class="connect-btn button-facebook btn">
+               <svg style="width:24px;height:24px;top: 6px; position: relative; right: 5px;" viewBox="0 0 24 24">
+                 <path fill="#ffffff" d="M19,4V7H17A1,1 0 0,0 16,8V10H19V13H16V20H13V13H11V10H13V7.5C13,5.56 14.57,4 16.5,4M20,2H4A2,2 0 0,0 2,4V20A2,2 0 0,0 4,22H20A2,2 0 0,0 22,20V4C22,2.89 21.1,2 20,2Z"></path>
+               </svg>Facebook
+             </a>
+            </div>
+          </div>
+          <div id="tab-signup" class="col s12">
+            <div class="row">
+              <form ng-submit="submitSignup()" class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="name" type="text" class="validate">
+                    <label for="email">Your name</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input id="email" type="email" class="validate">
+                    <label for="email">Your email address</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Your password</label>
+                  </div>
+                </div>
+                <div class="row center-align">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
    </div>
    <main>
