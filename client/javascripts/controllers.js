@@ -3,6 +3,19 @@ angular.module('pasteit.controllers', [])
 .controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
   $scope.notOnHomeScreen = false;
 
+
+  // Login
+  $(document).ready(function(){
+    $('.modal').modal({
+      starting_top: '50%', // Starting top style attribute
+      ending_top: '10%', // Ending top style attribute
+    });
+  });
+
+  $scope.submitLogin = function(){
+    // Implement auth logic
+  };
+
   // Copy URL
   var clipboard = new Clipboard('.share-btn');
   $scope.copy = function(){
@@ -34,6 +47,10 @@ angular.module('pasteit.controllers', [])
       $('body').removeClass('mode-search');
       $('.icon-search').removeClass('transparent');
     });
+
+    $scope.loginModal = function(){
+      $('#login-modal').modal('open');
+    };
 
     $scope.goToPage = function(){
       console.log($scope.pageName);
@@ -130,7 +147,5 @@ angular.module('pasteit.controllers', [])
   // Parallax
   $(document).ready(function(){
       $('.parallax').parallax();
-    });
-
-
+  });
 }]);
