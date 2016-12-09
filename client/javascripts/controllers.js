@@ -2,8 +2,8 @@ angular.module('pasteit.controllers', [])
 
 .controller('MainCtlr', ['$scope', '$http', '$location','AuthService', 'socket', function($scope, $http, $location, AuthService, socket){
   $scope.notOnHomeScreen = false;
+  $scope.shareUrl = $location.absUrl();
 
-  // Login
   $(document).ready(function(){
     $('.modal').modal({
       starting_top: '50%', // Starting top style attribute
@@ -11,6 +11,19 @@ angular.module('pasteit.controllers', [])
     });
   });
 
+  // Copy URL
+  var clipboard = new Clipboard('.share-btn');
+  $scope.copy = function(){
+    Materialize.toast('Copied!', 2000)
+  }
+
+
+  // To DO refactor
+  if($location.path()!="/"){
+    $scope.notOnHomeScreen=true;
+  }
+
+  // Login
   $scope.submitLogin = function(){
     $scope.loginError = false;
     $scope.loginDisabled = true;
@@ -31,23 +44,24 @@ angular.module('pasteit.controllers', [])
 
   };
 
-  // Copy URL
-  var clipboard = new Clipboard('.share-btn');
-  $scope.copy = function(){
-    Materialize.toast('Copied!', 2000)
-  }
-
-  if($location.path()!="/"){
-    $scope.notOnHomeScreen=true;
-  }
-
   // Download note
   $scope.download = function(){
     var fileName = $location.path().substr(1);
     download($('#textarea1').val(), fileName+".txt", "text/plain");
   }
-
-  $scope.shareUrl = $location.absUrl();
+  // Go to note
+  $scope.goToPage = function(){
+    console.log($scope.pageName);
+    var path = "/";
+    if(typeof $scope.pageName!="undefined"){
+      $scope.notOnHomeScreen = true;
+      path = path+$scope.pageName;
+    }
+    $location.path(path);
+    $scope.notOnHomeScreen = false;
+    $('.icon-close').click();
+    $scope.pageName = "";
+  }
 
   // UI
   $('.control').click( function(){
@@ -67,18 +81,6 @@ angular.module('pasteit.controllers', [])
       $('#login-modal').modal('open');
       $('ul.tabs').tabs('select_tab', 'tab-signin');
     };
-
-    $scope.goToPage = function(){
-      console.log($scope.pageName);
-      var path = "/";
-      if(typeof $scope.pageName!="undefined"){
-        $scope.notOnHomeScreen = true;
-        path = path+$scope.pageName;
-      }
-      $location.path(path);
-      $('.icon-close').click();
-      $scope.pageName = "";
-    }
 }])
 
 .controller('OtherCtlr', ['$scope', '$http', '$routeParams','$timeout','socket', function($scope, $http, $routeParams,$timeout, socket){
@@ -146,8 +148,7 @@ angular.module('pasteit.controllers', [])
             });
 
             $scope.$watch('noteText', function(data) {
-
-                if(typeof data != 'undefined'){
+                if(data && typeof data != 'undefined' ){
                   // Resize if is empty
                   if(data.length==0){
                     element.trigger('autoresize');
