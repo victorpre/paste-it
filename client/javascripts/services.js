@@ -19,23 +19,24 @@ angular.module('pasteit.services', [])
 
 .factory('AuthService',['$q', '$timeout', '$http', function ($q, $timeout, $http) {
     // create user variable
-    var user = null;
+    var hasUser = null;
+    var user = {};
     var error = null;
 
     // return available functions for use in the controllers
     return {
+      getUser: function(){
+        return user;
+      },
       getError: function(){
         return error;
       },
       isLoggedIn: function() {
-                    if(user) {
-                      return true;
-                    } else {
-                      return false;
-                    }
+                    return hasUser;
                   },
+                  // todo refactor
       getUserStatus: function() {
-        return user;
+        return hasUser;
       },
       login: function(email, password) {
 
@@ -49,16 +50,17 @@ angular.module('pasteit.services', [])
           .success(function (data, status) {
             if(status === 200){
               console.log(data, status);
-              user = true;
+              user = data;
+              hasUser = true;
               deferred.resolve();
             } else {
-              user = false;
+              hasUser = false;
               deferred.reject();
             }
           })
           // handle error
           .error(function (data, status) {
-            user = false;
+            hasUser = false;
             deferred.reject();
           });
 
@@ -74,12 +76,12 @@ angular.module('pasteit.services', [])
         $http.get('/user/logout')
           // handle success
           .success(function (data) {
-            user = false;
+            hasUser = false;
             deferred.resolve();
           })
           // handle error
           .error(function (data) {
-            user = false;
+            hasUser = false;
             deferred.reject();
           });
 

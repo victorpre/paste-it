@@ -51,7 +51,8 @@
            <a href="#" class="brand-logo center">Paste-It</a>
            <ul id="nav-mobile" class="right hide-on-med-and-down">
              <li><a href="/">Home</a></li>
-             <li><a href="#" ng-click="loginModal()"><i class="material-icons">lock_outline</i></a></li>
+             <li ng-show="userLoggedIn"><a href="#" ng-click=""><i class="material-icons right">lock_open</i>{{user.name}}, </a></li>
+             <li ng-show="!userLoggedIn"><a href="#" ng-click="loginModal()"><i class="material-icons">lock_outline</i></a></li>
            </ul>
          </div>
        </nav>

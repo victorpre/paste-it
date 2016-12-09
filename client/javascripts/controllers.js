@@ -3,6 +3,8 @@ angular.module('pasteit.controllers', [])
 .controller('MainCtlr', ['$scope', '$http', '$location','AuthService', 'socket', function($scope, $http, $location, AuthService, socket){
   $scope.notOnHomeScreen = false;
   $scope.shareUrl = $location.absUrl();
+  $scope.userLoggedIn = false;
+  $scope.user = {};
 
   $(document).ready(function(){
     $('.modal').modal({
@@ -29,6 +31,8 @@ angular.module('pasteit.controllers', [])
     $scope.loginDisabled = true;
     AuthService.login($scope.loginForm.email,$scope.loginForm.password)
     .then(function () {
+          $scope.userLoggedIn = AuthService.getUserStatus();
+          $scope.user = AuthService.getUser();
           $scope.errorMessage = "";
           $location.path('/');
           $('#login-modal').modal('close');
