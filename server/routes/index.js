@@ -186,54 +186,68 @@ router.get('/api/v1/paste-it/:note_title', (req, res, next) => {
 });
 
 // Create user
-router.post('/register',jsonParser, function(req, res) {
+router.post('/user/register',jsonParser, function(req, res) {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+  var user = {};
   var hashPassword = {};
-
   if (!req.body) { return res.sendStatus(400); }
-
   if (!email || !password) {
     return res.status(400).send('Missing email or password');
   }
+  // Check for user already created
+  pg.connect(connectionString, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Insert Data
+    const query = client.query('SELECT * FROM users where email=($1)',[email]);
 
-  if (users[email] !== undefined) {
-    return res.status(409).send('A user with the specified email already exists');
-  }
+    query.on('row', (row) => {
+      user=row;
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      if(Object.keys(user).length>0){
+        console.log(user);
+        return res.status(409).send('A user with the specified email already exists');
+      }
+      else{
+        randomBytes(32).then(salt => argon2i.hash(password, salt)).then(function(pass){
+          hashPassword = pass;
+        }).then(function(){
+          pg.connect(connectionString, (err, client, done) => {
+            // Handle connection errors
+            if(err) {
+              done();
+              console.log(err);
+              return res.status(500).json({success: false, data: err});
+            }
+            // SQL Query > Insert Data
+            const query = client.query('INSERT INTO users(name,email,password) values($1 ,$2,$3)',
+            [name, email,hashPassword]);
 
-  if (password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
-    return res.status(400).send(
-      'Password must be between ' + MIN_PASSWORD_LENGTH + ' and ' +
-      MAX_PASSWORD_LENGTH + ' characters long');
-  }
-
-     randomBytes(32).then(salt => argon2i.hash(password, salt)).then(function(pass){
-       hashPassword = pass;
-       users[email] = hashPassword;
-     }).then(function(){
-       pg.connect(connectionString, (err, client, done) => {
-         // Handle connection errors
-         if(err) {
-           done();
-           console.log(err);
-           return res.status(500).json({success: false, data: err});
-         }
-         // SQL Query > Insert Data
-         const query = client.query('INSERT INTO users(name,email,password) values($1 ,$2,$3)',
-         [name, email,hashPassword]);
-
-         // After all data is returned, close connection and return results
-         query.on('end', () => {
-           done();
-           return res.sendStatus(201);
-         });
-       });
-     });
+            // After all data is returned, close connection and return results
+            query.on('end', () => {
+              done();
+              return res.status();
+            });
+          });
+        });
+        return res.sendStatus(302);
+      }
+    });
   });
+});
 
-  router.post('/sessions', jsonParser, function (req, res,next) {
+  router.post('/user/login', jsonParser, function (req, res,next) {
     var encodedHash = "";
+    var user = {};
     const email = req.body.email;
     const password = req.body.password;
 
@@ -255,14 +269,15 @@ router.post('/register',jsonParser, function(req, res) {
       [email]);
 
       query.on('row', (row) => {
-        encodedHash = row.password;
+        user = row;
+        encodedHash = user.password;
       });
       query.on('end', () => {
         done();
-        if (encodedHash === undefined) { return res.sendStatus(401); }
+        if (!encodedHash) { return res.status(401).send('Email not registered.'); }
         argon2i.verify(encodedHash, password).then(function(correct){
           if(correct){
-            return res.sendStatus(200);
+            return res.status(200).send(user);
           }
           else{
             return res.sendStatus(401);

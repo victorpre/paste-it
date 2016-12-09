@@ -66,23 +66,24 @@
               <li class="tab col s3"><a href="#tab-signup">Signup</a></li>
             </ul>
           </div>
-          <div class="center">
+          <div class="center-align">
             <h4 class="brand-logo">Paste-It</h4>
           </div>
           <div id="tab-signin" class="col s12">
             <div class="row">
               <form ng-submit="submitLogin()" class="col s12">
                 <div class="row">
+                  <p class="center-align" style="color:red;">{{errorMessage}}</p>
                   <div class="input-field col s12">
                     <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" class="validate">
+                    <input id="email" type="email" name="email" class="validate" ng-model="loginForm.email" required>
                     <label for="email">Your email address</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" class="validate">
+                    <input id="password" type="password" class="validate" name="password" ng-model="loginForm.password" required>
                     <label for="password">Your password</label>
                   </div>
                 </div>

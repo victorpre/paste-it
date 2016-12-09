@@ -1,6 +1,6 @@
 angular.module('pasteit.controllers', [])
 
-.controller('MainCtlr', ['$scope', '$http', '$location', 'socket', function($scope, $http, $location, socket){
+.controller('MainCtlr', ['$scope', '$http', '$location','AuthService', 'socket', function($scope, $http, $location, AuthService, socket){
   $scope.notOnHomeScreen = false;
 
   // Login
@@ -12,7 +12,23 @@ angular.module('pasteit.controllers', [])
   });
 
   $scope.submitLogin = function(){
-    // Implement auth logic
+    $scope.loginError = false;
+    $scope.loginDisabled = true;
+    AuthService.login($scope.loginForm.email,$scope.loginForm.password)
+    .then(function () {
+          $scope.errorMessage = "";
+          $location.path('/');
+          $('#login-modal').modal('close');
+          $scope.disabled = false;
+          $scope.loginForm = {};
+        })
+        // handle error
+        .catch(function () {
+          $scope.loginError = true;
+          $scope.errorMessage = "Invalid email and/or password";
+          $scope.loginForm = {};
+        });
+
   };
 
   // Copy URL
