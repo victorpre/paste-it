@@ -4,6 +4,18 @@ const pg = require('pg');
 const path = require('path');
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/pasteit';
 
+// Auth
+const bodyParser = require('body-parser');
+const argon2i = require('argon2-ffi').argon2i;
+const crypto = require('crypto');
+const Promise = require('bluebird');
+const randomBytes = Promise.promisify(crypto.randomBytes);
+const salt = new Buffer('sambinha');
+var jsonParser = bodyParser.json();
+
+var MIN_PASSWORD_LENGTH = 8;
+var MAX_PASSWORD_LENGTH = 160;
+
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -172,6 +184,94 @@ router.get('/api/v1/paste-it/:note_title', (req, res, next) => {
     });
   });
 });
+
+// Create user
+router.post('/register',jsonParser, function(req, res) {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  var hashPassword = {};
+
+  if (!req.body) { return res.sendStatus(400); }
+
+  if (!email || !password) {
+    return res.status(400).send('Missing email or password');
+  }
+
+  if (users[email] !== undefined) {
+    return res.status(409).send('A user with the specified email already exists');
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
+    return res.status(400).send(
+      'Password must be between ' + MIN_PASSWORD_LENGTH + ' and ' +
+      MAX_PASSWORD_LENGTH + ' characters long');
+  }
+
+     randomBytes(32).then(salt => argon2i.hash(password, salt)).then(function(pass){
+       hashPassword = pass;
+       users[email] = hashPassword;
+     }).then(function(){
+       pg.connect(connectionString, (err, client, done) => {
+         // Handle connection errors
+         if(err) {
+           done();
+           console.log(err);
+           return res.status(500).json({success: false, data: err});
+         }
+         // SQL Query > Insert Data
+         const query = client.query('INSERT INTO users(name,email,password) values($1 ,$2,$3)',
+         [name, email,hashPassword]);
+
+         // After all data is returned, close connection and return results
+         query.on('end', () => {
+           done();
+           return res.sendStatus(201);
+         });
+       });
+     });
+  });
+
+  router.post('/sessions', jsonParser, function (req, res,next) {
+    var encodedHash = "";
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if (!req.body) { return res.sendStatus(400); }
+
+    if (!email || !req.body.password) {
+      return res.status(400).send('Missing email or password');
+    }
+
+    pg.connect(connectionString, (err, client, done) => {
+      // Handle connection errors
+      if(err) {
+        done();
+        console.log(err);
+        return res.status(500).json({success: false, data: err});
+      }
+      // SQL Query > Insert Data
+      const query = client.query('SELECT * FROM users WHERE email=($1)',
+      [email]);
+
+      query.on('row', (row) => {
+        encodedHash = row.password;
+      });
+      query.on('end', () => {
+        done();
+        if (encodedHash === undefined) { return res.sendStatus(401); }
+        argon2i.verify(encodedHash, password).then(function(correct){
+          if(correct){
+            return res.sendStatus(200);
+          }
+          else{
+            return res.sendStatus(401);
+          }
+        });
+      });
+    });
+
+  });
 
 
 module.exports = router;
