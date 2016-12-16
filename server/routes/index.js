@@ -235,11 +235,10 @@ router.post('/user/register',jsonParser, function(req, res) {
             // After all data is returned, close connection and return results
             query.on('end', () => {
               done();
-              return res.status();
+              return res.status(200).send("User created successfully.");
             });
           });
         });
-        return res.sendStatus(302);
       }
     });
   });

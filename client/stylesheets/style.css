@@ -236,3 +236,16 @@ body.mode-search .control .btn-new {
 .parallax-container{
   font-family: "Roboto";
 }
+
+.line-numbers {
+  padding-top: 26px !important;
+  display: inline-block;
+  width: 1% !important;
+  font-family: fixed-width;
+  margin: 0px;
+}
+
+#textarea1{
+  display: inline-block;
+  line-height: 17px;
+}

@@ -48,6 +48,25 @@ angular.module('pasteit.controllers', [])
 
   };
 
+  // Register
+  $scope.submitRegistration = function(){
+    $scope.registrationError = false;
+    // $scope.loginDisabled = true;
+    AuthService.register($scope.registrationForm.name, $scope.registrationForm.email, $scope.registrationForm.password)
+    .then(function (status) {
+          $scope.registrationMessage = status;
+          Materialize.toast($scope.registrationMessage, 2500)
+          $scope.registrationForm = {};
+          $('#login-modal').modal('close');
+        })
+        // handle error
+        .catch(function (reason) {
+          console.log(reason);
+          $scope.loginForm = {};
+        });
+
+  };
+
   // Download note
   $scope.download = function(){
     var fileName = $location.path().substr(1);
@@ -127,8 +146,6 @@ angular.module('pasteit.controllers', [])
   }
   // Sockets
   socket.listen($scope.noteTitle,function(data){
-
-
     $scope.noteText = data;
     $scope.saving = true;
     var async_timer = $timeout(stopTimer,3500)
@@ -140,7 +157,11 @@ angular.module('pasteit.controllers', [])
     $scope.saving = true;
     socket.send($scope.noteTitle, $scope.noteText);
   }
-
+  $scope.lineNumber = 0;
+  $scope.getNumber = function(num) {
+    console.log(num);
+  return new Array(num);
+}
 
 }])
 
@@ -152,6 +173,10 @@ angular.module('pasteit.controllers', [])
             });
 
             $scope.$watch('noteText', function(data) {
+              var text = $("#textarea1").val();
+              var lines = text.split("\n");
+              $scope.lineNumber = lines.length;
+
                 if(data && typeof data != 'undefined' ){
                   // Resize if is empty
                   if(data.length==0){

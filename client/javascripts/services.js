@@ -22,6 +22,7 @@ angular.module('pasteit.services', [])
     var hasUser = null;
     var user = {};
     var error = null;
+    var registrationStatus = null;
 
     // return available functions for use in the controllers
     return {
@@ -89,20 +90,20 @@ angular.module('pasteit.services', [])
         return deferred.promise;
 
       },
-      register: function(email, password) {
+      register: function(name, email, password) {
         // create a new instance of deferred
         var deferred = $q.defer();
 
         // send a post request to the server
         $http.post('/user/register',
-          {email: email, password: password})
+          {name: name, email: email, password: password})
           // handle success
           .success(function (data, status) {
-            console.log(data);
-            if(status === 200 && data.status){
-              deferred.resolve();
+            if(status === 200){
+              registrationStatus = data;
+              deferred.resolve(registrationStatus);
             } else {
-              deferred.reject();
+              deferred.reject("sambei");
             }
           })
           // handle error
@@ -111,7 +112,7 @@ angular.module('pasteit.services', [])
           });
 
         // return promise object
-        return deferred.promise;
+          return deferred.promise;
 
       }
     };

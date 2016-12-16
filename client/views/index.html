@@ -106,25 +106,25 @@
           </div>
           <div id="tab-signup" class="col s12">
             <div class="row">
-              <form ng-submit="submitSignup()" class="col s12">
+              <form ng-submit="submitRegistration()" class="col s12">
                 <div class="row">
                   <div class="input-field col s12">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="name" type="text" class="validate">
-                    <label for="email">Your name</label>
+                    <input id="name" type="text" class="validate" ng-model="registrationForm.name">
+                    <label for="name">Your name</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
                     <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" class="validate">
+                    <input id="email" type="email" class="validate" ng-model="registrationForm.email">
                     <label for="email">Your email address</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" class="validate">
+                    <input id="password" type="password" class="validate" ng-model="registrationForm.password">
                     <label for="password">Your password</label>
                   </div>
                 </div>

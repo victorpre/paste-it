@@ -1,12 +1,17 @@
-<div>
-  <form class="col s12">
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea text-box="{{noteText}}" id="textarea1" class="materialize-textarea" ng-focus="true" ng-change="updateText()" ng-model="noteText"></textarea>
+<div class="row">
+  <div class="col s12">
+    <div class="line-numbers col s1">
+      <div ng-repeat="i in getNumber(lineNumber) track by $index"><div style="font-size: 14px;">{{$index+1}}</div></div>
+    </div>
+    <form>
+      <div class="input-field col s11">
+        <textarea text-box="{{noteText}}" id="textarea1" class="materialize-textarea lined" ng-focus="true" ng-change="updateText()" ng-model="noteText"></textarea>
         <label for="textarea1">Start typping</label>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
+</div>
+<div class="row">
   <div ng-show="saving" class="row">
     <div class="col s1 offset-s11">
       <div class="preloader-wrapper small active">
