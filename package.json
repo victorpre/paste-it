@@ -7,7 +7,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "supervisor ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "pg": "4.X",
