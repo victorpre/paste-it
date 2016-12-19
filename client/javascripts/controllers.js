@@ -55,14 +55,15 @@ angular.module('pasteit.controllers', [])
     AuthService.register($scope.registrationForm.name, $scope.registrationForm.email, $scope.registrationForm.password)
     .then(function (status) {
           $scope.registrationMessage = status;
-          Materialize.toast($scope.registrationMessage, 2500)
+          Materialize.toast($scope.registrationMessage, 4500)
           $scope.registrationForm = {};
           $('#login-modal').modal('close');
         })
         // handle error
         .catch(function (reason) {
           console.log(reason);
-          $scope.loginForm = {};
+          $scope.registrationError = reason;
+          $scope.registrationForm = {};
         });
 
   };

@@ -103,12 +103,12 @@ angular.module('pasteit.services', [])
               registrationStatus = data;
               deferred.resolve(registrationStatus);
             } else {
-              deferred.reject("sambei");
+              // deferred.reject("sambei");
             }
           })
           // handle error
           .error(function (data) {
-            deferred.reject();
+            deferred.reject(data);
           });
 
         // return promise object
