@@ -1,12 +1,16 @@
 {
   "name": "paste-it",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "engines": {
+    "node": "6.5.0",
+    "npm": "3.10.3"
+  }
   "private": true,
   "scripts": {
     "start": "supervisor ./bin/www"
   },
   "dependencies": {
-    "pg": "~6.1.2",
+    "pg": "4.X",
     "argon2-ffi": "^1.0.1",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
