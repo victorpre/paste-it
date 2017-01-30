@@ -2,7 +2,7 @@ angular.module('pasteit.services', [])
 
 .factory('socket', function(){
     //Creating connection with server
-    var socket = io.connect('https://tranquil-atoll-83322.herokuapp.com');
+    var socket = io.connect('http://tranquil-atoll-83322.herokuapp.com');
 
     return{
       listen: function(eventName, callback){

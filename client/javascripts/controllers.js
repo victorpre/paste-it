@@ -109,6 +109,7 @@ angular.module('pasteit.controllers', [])
 
 .controller('OtherCtlr', ['$scope', '$http', '$routeParams','$timeout','socket', function($scope, $http, $routeParams,$timeout, socket){
   $scope.saving =  false;
+  $scope.readyToListen = true;
   $scope.noteTitle = $routeParams.noteTitle;
   var path = '/api/v1/paste-it/'+$scope.noteTitle;
   $scope.noteData = {};
@@ -127,6 +128,7 @@ angular.module('pasteit.controllers', [])
   // Time out to persist in DB
   var timer = null;
   $('#textarea1').keydown(function(){
+         $scope.readyToListen = false;
          clearTimeout(timer);
          timer = setTimeout(saveOnDB, 3500)
   });
@@ -135,6 +137,7 @@ angular.module('pasteit.controllers', [])
       $http.put(path, {text: $scope.noteText})
       .success((data) => {
         $scope.saving = false;
+        $scope.readyToListen = true;
         // $scope.noteData = data;
       })
       .error((error) => {
@@ -142,17 +145,18 @@ angular.module('pasteit.controllers', [])
       });
   }
 
+  function stopTimer(){
+    $scope.saving = false;
+  }
   // Sockets
-  console.log($scope.noteTitle);
   socket.listen($scope.noteTitle,function(data){
-    function stopTimer(){
-      $scope.saving = false;
+    if ($scope.readyToListen){
+      $scope.noteText = data;
+      $scope.saving = true;
+      var async_timer = $timeout(stopTimer,3500)
+      $('#textarea1').trigger('autoresize');
+      $('#textarea1').trigger('focus');
     }
-    var async_timer = setTimeout(stopTimer,3000)
-    $scope.noteText = data;
-    $scope.saving = true;
-    $('#textarea1').trigger('autoresize');
-    $('#textarea1').trigger('focus');
   });
 
   $scope.updateText = function(){
