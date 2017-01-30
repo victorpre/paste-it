@@ -142,14 +142,15 @@ angular.module('pasteit.controllers', [])
       });
   }
 
-  function stopTimer(){
-    $scope.saving = false;
-  }
   // Sockets
+  console.log($scope.noteTitle);
   socket.listen($scope.noteTitle,function(data){
+    function stopTimer(){
+      $scope.saving = false;
+    }
+    var async_timer = setTimeout(stopTimer,3000)
     $scope.noteText = data;
     $scope.saving = true;
-    var async_timer = $timeout(stopTimer,3500)
     $('#textarea1').trigger('autoresize');
     $('#textarea1').trigger('focus');
   });
@@ -158,11 +159,6 @@ angular.module('pasteit.controllers', [])
     $scope.saving = true;
     socket.send($scope.noteTitle, $scope.noteText);
   }
-  $scope.lineNumber = 0;
-  $scope.getNumber = function(num) {
-    console.log(num);
-  return new Array(num);
-}
 
 }])
 
@@ -172,20 +168,6 @@ angular.module('pasteit.controllers', [])
             $timeout(function() {
               element.trigger('autoresize');
             });
-
-            $scope.$watch('noteText', function(data) {
-              var text = $("#textarea1").val();
-              var lines = text.split("\n");
-              $scope.lineNumber = lines.length;
-
-                if(data && typeof data != 'undefined' ){
-                  // Resize if is empty
-                  if(data.length==0){
-                    element.trigger('autoresize');
-                  }
-                }
-            });
-
         }
     };
 }])
