@@ -1,5 +1,5 @@
 {
-  "name": "paste-it",
+  "name": "typeon.me",
   "version": "1.0.0",
   "engines": {
     "node": "6.5.0",
@@ -7,22 +7,23 @@
   },
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "dev": "nodemon",
+    "production": "pm2 start loader.js --name backend"
   },
+  "author": "Victor Presumido",
   "dependencies": {
-    "pg": "4.X",
-    "argon2-ffi": "^1.0.1",
-    "bluebird": "^3.4.6",
-    "body-parser": "^1.15.2",
-    "cookie-parser": "~1.4.3",
-    "crypto": "0.0.3",
-    "debug": "~2.2.0",
-    "express": "^4.14.0",
-    "jade": "~1.11.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "express-query-int": "^1.0.1",
+    "lodash": "^4.17.4",
     "materialize-css": "^0.97.8",
-    "morgan": "~1.7.0",
-    "pg": "^6.1.2",
+    "mongoose": "^4.11.9",
+    "mongoose-paginate": "^5.0.3",
+    "node-restful": "^0.2.6",
+    "pm2": "^2.6.1",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.7.1"
   }
 }
+
+
