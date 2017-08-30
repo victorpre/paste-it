@@ -3,13 +3,19 @@ const noteService = require('../api/note/noteService')
 
 module.exports = function(server) {
 
-  const router = express.Router();
-  router.get('/', function(req, res){
+  const apiRouter = express.Router();
+  const staticRouter = express.Router();
+
+  // Static Pages rendering router
+  staticRouter.get('/', function(req, res){
     res.json({message: "horray"});
   });
 
-  router.get('/teste', noteService.test);
+  //  API router
+  apiRouter.get('/notes/:title.:format?', noteService.show);
+  apiRouter.post('/notes', noteService.create);
 
-  server.use('/api', router);
+  server.use('/', staticRouter);
+  server.use('/api/v2', apiRouter);
 
 }
