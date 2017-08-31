@@ -12,8 +12,9 @@ module.exports = function(server) {
   });
 
   //  API router
-  apiRouter.get('/notes/:title.:format?', noteService.show);
+  apiRouter.get('/notes/:title', noteService.show);
   apiRouter.post('/notes', noteService.create);
+  apiRouter.put('/notes/:title', noteService.update);
 
   server.use('/', staticRouter);
   server.use('/api/v2', apiRouter);
