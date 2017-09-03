@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server/app.js",
-    "production": "pm2 start app.js --name backend"
+    "production": "pm2 start server/app.js --name backend"
   },
   "author": "Victor Presumido",
   "dependencies": {
