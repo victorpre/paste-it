@@ -1,26 +1,25 @@
-const gulp = require('gulp');
-const gnf = require('gulp-npm-files');
-
-const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
-const uglifycss = require('gulp-uglifycss');
+const gulp = require('gulp')
+const uglify = require('gulp-uglify')
+const uglifycss = require('gulp-uglifycss')
+const concat = require('gulp-concat')
 
 gulp.task('deps', ['deps.js', 'deps.css', 'deps.fonts']);
 
 gulp.task('deps.js', function() {
-  gulp.src([
-    'node_modules/angular/angular.min.js',
-    'node_modules/@uirouter/core/_bundles/ui-router-core.min.js',
-    'node_modules/angular-animate/angular-animate.min.js',
-    'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
-    'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/materialize-css/dist/js/materialize.min.js',
-    'node_modules/material-design-icons/index.js'
-  ])
+  var stream =gulp.src([
+      'node_modules/jquery/dist/jquery.min.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-route/angular-route.min.js',
+      'node_modules/angular-animate/angular-animate.min.js',
+      'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+      'node_modules/materialize-css/dist/js/materialize.min.js'
+    ])
   .pipe(uglify())
   .pipe(concat('deps.min.js'))
-  .pipe(gulp.dest('public/assets/js'));
-});
+    .pipe(gulp.dest('public/assets/js'));
+
+  return stream;
+})
 
 gulp.task('deps.css', function() {
   gulp.src([
@@ -38,7 +37,6 @@ gulp.task('deps.css', function() {
 gulp.task('deps.fonts', function() {
   gulp.src([
     'node_modules/materialize-css/dist/fonts/roboto/*.*'
-
   ])
-    .pipe(gulp.dest('public/assets/fonts'));
+    .pipe(gulp.dest('public/assets/fonts/roboto'));
 });
