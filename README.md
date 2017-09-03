@@ -1,18 +1,24 @@
-# paste-it
+# TypeOn.me
 📝 Real-time notes with Node.JS, Express, Socket.IO, MongoDB and AngularJS (w/ Gulp)
 
 
-## Backend (server)
+## Running the project:
 
-- npm install
+### Backend (server)
+
+- Install dependencies: `npm install`
+
+- Start mongodb: `brew services start mongodb`
 
 - Development `npm run dev`
 
-- Production `npm run production` (requires pm2 and mongodb)
+- Production `npm run production` (requires pm2)
 
 
-## Frontend (client)
+### Frontend (client)
 
-- `cd client`
-- `npm install`
-- `npm run dev`
+- Enter the client side project directory: `cd client`
+
+- Install dependencies: `npm install`
+
+- Start gulp: `npm run dev`
