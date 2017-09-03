@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="typeonme">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TypeOn.me</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="Content-Security-Policy" content="default-src *;
+       img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+          style-src  'self' 'unsafe-inline' *">
+    <base href="/">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/assets/css/deps.min.css">
+    <link rel="stylesheet" href="/assets/css/app.min.css">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <header class="header" ng-include="'/template/header.html'"></header>
+    <div class="content-wrapper">
+         <ng-view></ng-view>
+    </div>
+    <footer class="page-footer" ng-include="'/template/footer.html'"></footer>
+    <script src="/assets/js/deps.min.js"></script>
+    <script src="/assets/js/app.min.js"></script>
+  </body>
+</html>

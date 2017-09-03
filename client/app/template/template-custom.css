@@ -1,28 +1,32 @@
 @font-face {
-    font-family: titleFont;
-    src: url('/fonts/thinking.ttf'); /* IE9 Compat Modes */
-    src: url('/fonts/thinking.ttf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('/fonts/thinking.ttf')  format('truetype'), /* Safari, Android, iOS */
+    font-family: "Lobster";
+    src: url('/assets/fonts/Lobster.otf'); /* IE9 Compat Modes */
+    src: url('/assets/fonts/Lobster.otf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/assets/fonts/Lobster.otf')  format('truetype'), /* Safari, Android, iOS */
 }
 
 main {
     flex: 1 0 auto;
 }
 
+.adjust-index{
+  z-index:0 !important;
+}
+
 .brand-logo {
-  font-family: "Rancho";
-  font-size: 50px !important;
+  font-family: "Lobster";
+  font-size: 42px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 500;
 }
 
 footer h5{
-  font-family: "Rancho";
+  font-family: "Lobster";
 }
 
 .page-footer {
-     margin-top: 0px !important;
+  margin-top: 0px !important;
 }
 
  /*Modal*/
